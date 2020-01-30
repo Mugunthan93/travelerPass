@@ -1,0 +1,135 @@
+<section id="login_new">
+  <div class="container-fluid">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 justify-content-center pt-5" style="padding:70px;">
+          <div class="row">
+            <div class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12">
+              <!-- login container -->
+              <div class="login_cong_wrapper" id="login_wrapper">
+                <div class="login_container login-jumbo text-center">
+                  <img src="../../../assets/logo.png" style="width:50%;">
+                  <h6>Please Login to your account.</h6>
+                  <form [formGroup]="login" (ngSubmit)="onLogin()">
+                    <div *ngIf="demoLogin" class="form-group">
+                      <input type="email" formControlName="email" name="email" class="form-control" placeholder="Enter Email ID" autocomplete="off">
+                    </div>
+                    <div *ngIf="!demoLogin" class="form-group">
+                      <input type="text" formControlName="name" name="name" class="form-control" placeholder="Enter user name" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" formControlName="password" name="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
+                      <a href="javascript:;" (click)="display=false" class="forget" data-toggle="modal" data-target=".forget-modal" style="float:right;margin-bottom: 10px;">
+                        Forgot your password?</a>
+                    </div>
+                    <div class="form-group">
+                      <p *ngIf="login.get('name').errors" class="text-danger"> Invalid user name</p>
+                      <p *ngIf="login.get('password').errors" class="text-danger"> Invalid password</p>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-primary login-btn">Login</button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- signup container -->
+              <!-- <div class="signup_cong_wrapper" id="signup_wrapper" style="display:none;">
+                <div class="login_container login-jumbo text-center signup_container">
+                  <h3 *ngIf="hideField">SignUp with</h3>
+                  <h6 *ngIf="hideField">TravellersPass!</h6>
+                  <h3 *ngIf="showField">Welcome</h3>
+                  <h6 class="gmailname" *ngIf="showField">{{gmailData.name}}</h6>
+                  <h3 *ngIf="showFieldmanual">Welcome</h3>
+                  <h6 class="gmailname" *ngIf="showFieldmanual">{{manualUser.name}}</h6>
+                  <img class="img_rad" *ngIf="showField" src="{{gmailData.image}}" alt="Avatar" style="width:100px">
+                  <div class="offset-xl-4 offset-lg-3  offset-md-2 avathar_bot">
+                    <ngx-avatar *ngIf="showFieldmanual" name="{{manualUser.name}}" value="{{manualUser.name}}" bgColor="#000000" fgColor="#58D3F7"
+                      size="100" textSizeRatio="2.5" [round]="true"></ngx-avatar>
+                  </div>
+                  <form>
+                    <div class="form-group" *ngIf="hideField">
+                      <input type="email" name="sign_email" [(ngModel)]="manualUser.email" class="form-control" id="signup_email1" placeholder="Email"
+                        pInputText pKeyFilter="email">
+                      <p-growl [(value)]="err_msg"></p-growl>
+                    </div>
+                    <div class="form-group" *ngIf="hideField">
+                      <input type="text" name="sign_userName" [(ngModel)]="manualUser.name" class="form-control" id="signup_username" placeholder="User Name">
+                      <p-growl [(value)]="err_msg"></p-growl>
+                    </div>
+
+                    <div class="form-group" *ngIf="hideField">
+                      <input type="password" name="sign_password" [(ngModel)]="manualUser.password" class="form-control" id="signup_password" placeholder="Password">
+                      <p-growl [(value)]="err_msg"></p-growl>
+                    </div>
+                    <div class="form-group" *ngIf="showField">
+                      <input type="text" maxlength="10" placeholder="Mobile Number" class="form-control" pInputText pKeyFilter="pint" name="mobilenumber"
+                        [(ngModel)]="customer.mobilenumber" />
+                      <p-growl [(value)]="err_msg"></p-growl>
+                    </div>
+                    <div class="form-group" *ngIf="showFieldmanual">
+                      <input type="text" maxlength="10" placeholder="Mobile Number" class="form-control" pInputText pKeyFilter="pint" name="mobilenumber"
+                        [(ngModel)]="manualUser.phone_number" />
+                      <p-growl [(value)]="err_msg"></p-growl>
+                    </div>
+                    <div class="terms_cond" *ngIf="showFieldmanual">
+                      <p-checkbox name="groupname" value="true" [(ngModel)]="checktruemanual"></p-checkbox>
+                      <span [ngClass]="reqred">By clicking this, you agree to the </span>
+                      <a href="/privacy-policy">
+                        <br />Terms and Conditions</a>
+                    </div>
+                    <div class="terms_cond" *ngIf="showField">
+                      <p-checkbox name="groupname" value="true" [(ngModel)]="customer.checktrue"></p-checkbox>
+                      <span [ngClass]="reqred">By clicking this, you agree to the </span>
+                      <a href="/privacy-policy;">
+                        <br />terms and conditions</a>
+                    </div>
+                    <p *ngIf="invalidMsg" class="text-danger"> Invalid user name or password</p>
+                    <button *ngIf="hideField" type="submit" class="btn btn-primary login-btn" (click)="confirmmanual();">Confirm</button>
+                    <button *ngIf="showField" type="submit" class="btn btn-primary login-btn" (click)="signupfromgoogle();customer.checktrue?false:reqred='reqred'">Submit</button>
+                    <button *ngIf="showFieldmanual" type="submit" class="btn btn-primary login-btn" (click)="signupmanual();checktruemanual?false:reqred='reqred'">Submit</button>
+
+                    <div *ngIf="hideField" class="signup_new_btns">
+                      <span class="mem_div mem_div2">Or Login With</span>
+                      <span class="scl_btns ggle_icn" (click)="socialSignUp('google')">
+                        <i class="fa fa-google-plus-square scl_icon" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </form>
+                </div>
+                <div class="su_signup_div text-center" *ngIf="hideField">
+                  <span class="mem_div">Have an Account?</span>
+                  <a id="login_button" class="sig_btn" href="javascript://void(0):" onclick="jQuery('#signup_wrapper').css('display','none');jQuery('#login_wrapper').css('display','block')">Login</a>
+                </div>
+
+              </div> -->
+
+              <!-- Forgot Pwd container -->
+              <!-- <div *ngIf="display==false" class="fordgot_wrapper" id="forgot_wrapper">
+                <p-confirmDialog [rejectVisible]="false" acceptLabel="ok" [style]="{width: '50vw'}"></p-confirmDialog>
+
+                <div class="login_container login-jumbo text-center signup_container">
+                  <h3>Forgot Password</h3>
+                  <span class="mem_div">Enter your email id to receive your password reset Link </span>
+                  <form>
+                    <div class="form-group">
+                      <input [(ngModel)]="resetMail" (keyup)="onKey($event)" type="email" name="sign_email" class="form-control" id="signup_email"
+                        placeholder="Email Id">
+                    </div>
+                    <p *ngIf="invalidMsg1" class="text-danger"> Please Enter Email id</p>
+                    <button (click)="resetPassword()" type="submit" class="btn btn-primary login-btn">Recover Password</button>
+                  </form>
+                </div>
+                <div class="su_signup_forget text-center" *ngIf="hideField">
+                  <a (click)="display=true" id="login_button" class="sig_btn" href="javascript://void(0):">Login</a>
+                </div>
+              </div> -->
+
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
