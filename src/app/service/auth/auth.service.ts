@@ -3,26 +3,30 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
-import { AccountUser, BookingUser } from "../../model/classes";
+import { AccountUser, BookingUser } from "../../models/classes";
 import { environment } from "src/environments/environment";
 import {
   LoginUser,
-  AccountUserType,
-  BookingUserType,
+  UserType,
   LogOutUserResponse
-} from "src/app/model/interfaces";
+} from "src/app/models/interfaces";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  private _user = new BehaviorSubject<AccountUserType | BookingUserType>(null);
+  private _user = new BehaviorSubject<UserType>(null);
   options = {
     headers: new HttpHeaders().append("key", "value"),
     withCredentials: true
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
+
+  get getUser() {
+    return this._user.asObservable();
+  }
 
   login(userName, password): Observable<any> {
     let user: LoginUser = {
@@ -30,11 +34,7 @@ export class AuthService {
       password: password
     };
     return this.http
-      .post<AccountUserType | BookingUserType>(
-        environment.baseURL + "/users/login",
-        user,
-        this.options
-      )
+      .post<UserType>(environment.baseURL + "/users/login", user, this.options)
       .pipe(
         map(loginResponse => {
           console.log(loginResponse.role);
@@ -44,9 +44,14 @@ export class AuthService {
             loginResponse.role === "buisnesshead"
           ) {
             let accountUser = new AccountUser(loginResponse);
+            this._user.next(accountUser);
+            sessionStorage.setItem("user", JSON.stringify(accountUser));
+            this.router.navigate(["account"]);
             return accountUser;
           } else {
             let bookingUser = new BookingUser(loginResponse);
+            this._user.next(bookingUser);
+            this.router.navigate(["booking"]);
             return bookingUser;
           }
         })
@@ -62,7 +67,8 @@ export class AuthService {
       )
       .pipe(
         map((logoutResponse: LogOutUserResponse) => {
-          console.log(logoutResponse);
+          sessionStorage.removeItem("user");
+          this._user.next(null);
           return logoutResponse;
         })
       );

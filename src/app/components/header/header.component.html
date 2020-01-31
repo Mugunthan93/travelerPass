@@ -1,0 +1,142 @@
+<style>
+  @media (min-width: 0px) and (max-width: 991px) {
+    .nav_bar_sub2 {
+      height: 405px !important;
+    }
+  }
+</style>
+
+<!-- <ul>
+  <li>
+    <a [routerLink]="dashboardOutlet">Dashboard</a>
+  </li>
+  <li>
+    <a [routerLink]="onboardOutlet">Onboard</a>
+  </li>
+</ul> -->
+
+<div class="nav_bar_sub tp-mainheader-nav" style="padding:0px">
+  <div class="container-fluid pl_pr_zero_large">
+    <div class="row">
+      <div class="col-lg-2 col-md-2 col-sm-12 text-center">
+        <div class="logo_div_sub_hed t_cen_smal_scrn">
+          <img
+            [src]=""
+            class="tp-logo2"
+            title="{{ companyDetails[0].company_name }}"
+            alt="{{ companyDetails[0].company_name }}"
+            (click)="homePage()"
+          />
+          <span
+            class="user_icon dropdown-toggle bt_sub_overde override_int_headr"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+          <div
+            class="dropdown-menu dropdown-menu2"
+            aria-labelledby="dropdownMenuButton"
+          >
+            <div class="mob_drop_text">Welcome {{ currentUser.name }}</div>
+            <a class="dropdown-item sub_item" href="#">Help</a>
+            <div class=""></div>
+            <a class="dropdown-item sub_item" (click)="resetPassword()"
+              >Change Password</a
+            >
+            <div class=""></div>
+            <a class="dropdown-item sub_item" (click)="logout()">Log out</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-12">
+        <div class="btns_movdiv">
+          <div
+            class="btn_div_sub_list active_tab_sub"
+            [ngClass]="{ active: activeTab == 1 }"
+            (click)="tonavigation(1)"
+          >
+            <span class="txt_spn_sub">Dashboard</span>
+          </div>
+          <div
+            class="btn_div_sub_list"
+            (click)="tonavigation(2)"
+            [ngClass]="{ active: activeTab == 2 }"
+          >
+            <span class="txt_spn_sub">Onboard</span>
+          </div>
+          <div
+            class="btn_div_sub_list"
+            (click)="tonavigation(5)"
+            [ngClass]="{ active: activeTab == 5 }"
+          >
+            <span class="txt_spn_sub">Vendor Settings</span>
+          </div>
+          <div
+            class="btn_div_sub_list"
+            style="border-right:none;"
+            (click)="tonavigation(8)"
+            [ngClass]="{ active: activeTab == 8 }"
+          >
+            <span class="txt_spn_sub">All Bookings </span>
+          </div>
+
+          <div
+            class="btn_div_sub_list"
+            style="border-right:none;"
+            (click)="tonavigation(7)"
+            [ngClass]="{ active: activeTab == 7 }"
+          >
+            <span class="txt_spn_sub">Invoice </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12 none_mobile">
+        <div class="rit_las_head_sub_new t_cen_smal_scrn">
+          <div class="nav-item dropdown ">
+            <a
+              class="btn c-nav-btn dropdown-toggle mt_zro_subhed bt_sub_overde"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              style="text-transform: capitalize;margin-top: -11px;position:relative;top:1px;"
+              >{{ currentUser.name }}
+            </a>
+            <br />
+            <span
+              style="font-size: 13px; color: #29aa5d;position:relative;top:-8px;"
+              >Cash Bal Rs. -{{ usedBalance }}({{ vendorBalance }})</span
+            >
+            <div
+              class="dropdown-menu dropdown-menu2  tip_top white"
+              aria-labelledby="dropdownMenuButton"
+            >
+              <span
+                class="dropdown-item sub_item"
+                (click)="MyProfile()"
+                style="cursor:pointer;"
+                >My Profile</span
+              >
+              <a
+                class="dropdown-item sub_item"
+                (click)="resetPassword()"
+                style="cursor:pointer;"
+                >Change Password</a
+              >
+              <a
+                style="cursor: pointer;"
+                class="dropdown-item sub_item"
+                (click)="Logout()"
+                >Log out</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,20 +5,19 @@ export interface LoginUser {
   password: string;
 }
 
-export interface UserType {}
-
-export interface AccountUserType {
+export interface UserType {
   id: number;
+  customer_id: number;
+  email: string;
   dob: string;
   city: string;
   name: string;
   role: string;
-  email: string;
   grade: string;
   gender: string;
   status: string;
   address: string;
-  approver: string;
+  approver: Array<object>;
   lastname: string;
   password: string;
   sales_id: string;
@@ -26,8 +25,7 @@ export interface AccountUserType {
   updatedAt: string;
   PAN_number: string;
   created_by: string;
-  credit_req: string;
-  customer_id: number;
+  credit_req: Array<object>;
   designation: string;
   gst_details: string;
   passport_no: string;
@@ -44,45 +42,6 @@ export interface AccountUserType {
   resetPasswordToken: string;
   is_Password_Changed: string;
   resetPasswordExpires: string;
-}
-
-export interface BookingUserType {
-  id: number;
-  customer_id: number;
-  name: string;
-  designation: string;
-  phone_number: string;
-  password: string;
-  email: string;
-  role: string;
-  is_Password_Changed: boolean;
-  manager_name: string;
-  manager_email: string;
-  credit_limit: number;
-  validity_period: string;
-  approver: Array<object>;
-  is_rightsto_book: boolean;
-  gst_details: object;
-  address: string;
-  credit_req: Array<object>;
-  resetPasswordToken: string;
-  resetPasswordExpires: string;
-  sales_id: string;
-  status: boolean;
-  created_by: string;
-  markup_charge: string;
-  service_charge: string;
-  city: string;
-  country_name: string;
-  grade: string;
-  passport_no: string;
-  passport_expiry: string;
-  dob: string;
-  lastname: string;
-  gender: string;
-  PAN_number: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface LogOutUserResponse {
