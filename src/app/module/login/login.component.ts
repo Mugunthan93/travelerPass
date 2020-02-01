@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.logSub = this.authService
         .login(this.login.value.name, this.login.value.password)
         .subscribe(resData => {
-          console.log(resData);
+          this.router.navigate([resData]);
         });
     }
   }

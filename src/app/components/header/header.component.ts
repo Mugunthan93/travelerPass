@@ -4,6 +4,7 @@ import { UserType } from "src/app/models/interfaces";
 import { AuthService } from "src/app/service/auth/auth.service";
 import { Subscription } from "rxjs";
 import { User } from "src/app/models/classes";
+import { companyType } from 'src/app/models/interfaces/types';
 
 @Component({
   selector: "app-header",
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit {
   onboardOutlet: any;
 
   @Input() currentUser: User;
+  @Input() currentCompanyDetail : companyType[];
   logoutSub: Subscription;
 
   constructor(public router: Router, private authService: AuthService) {}

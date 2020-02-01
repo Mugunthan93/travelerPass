@@ -46,15 +46,20 @@ export abstract class User {
 }
 
 export class AccountUser<AccountUserType> extends User {
+
   constructor(accountUser: AccountUserType) {
     super();
     this.accountProperty(accountUser);
   }
+
 }
 
 export class BookingUser<BookingUserType> extends User {
+
   constructor(bookingUser: BookingUserType) {
     super();
     this.accountProperty(bookingUser);
   }
+
+
 }

@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, DoCheck } from "@angular/core";
 import { AuthService } from "src/app/service/auth/auth.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { UserIdleService } from "angular-user-idle";
 import { UserType } from "src/app/models/interfaces";
+import { companyType } from 'src/app/models/interfaces/types';
 
 @Component({
   selector: "app-account",
@@ -11,13 +12,20 @@ import { UserType } from "src/app/models/interfaces";
   styleUrls: ["./account.component.scss"]
 })
 export class AccountComponent implements OnInit, OnDestroy {
+
+  previousAuthState : boolean = false;
+
+  authSub : Subscription;
   logoutSub: Subscription;
   IdleSub: Subscription;
   TimeOutSub: Subscription;
+  userSub : Subscription;
+  companySub : Subscription;
 
   idleTimer: number;
 
   user: UserType;
+  companyDetail: companyType[];
 
   constructor(
     public authService: AuthService,
@@ -26,6 +34,13 @@ export class AccountComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+
+    this.authSub = this.authService.userIsAuthenticated.subscribe(
+      (resData) => {
+        console.log(resData,this.previousAuthState);
+      }
+    );
+
     this.userIdle.startWatching();
     this.IdleSub = this.userIdle.onTimerStart().subscribe((timer: number) => {
       this.idleTimer = timer;
@@ -34,22 +49,28 @@ export class AccountComponent implements OnInit, OnDestroy {
       if (status) {
         this.userIdle.stopTimer();
         this.userIdle.stopWatching();
-        this.onLogOut();
       }
     });
-    this.user = JSON.parse(sessionStorage.getItem("user"));
-  }
 
-  onLogOut() {
-    this.logoutSub = this.authService.logout().subscribe(resData => {
+    this.userSub = this.authService.getUser.subscribe(
+    (resData) => {
+      this.user = resData;
       console.log(resData);
-      this.router.navigate(["login"]);
-    });
+    }
+    );
+    this.companySub = this.authService.getCompanyDetails.subscribe(
+      (resData) => {
+        this.companyDetail = resData;
+        console.log(resData);
+
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this.IdleSub.unsubscribe();
     this.TimeOutSub.unsubscribe();
-    this.logoutSub.unsubscribe();
+    this.userSub.unsubscribe();
+    this.companySub.unsubscribe();
   }
 }
